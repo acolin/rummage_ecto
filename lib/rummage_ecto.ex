@@ -177,7 +177,7 @@ defmodule Rummage.Ecto do
       {k, new_val}
     end)
 
-    Enum.into(rummage, new_opts)
+    Enum.into(rummage, %{paginate: new_opts})
   end
 
   defp cast_params(rummage), do: rummage
