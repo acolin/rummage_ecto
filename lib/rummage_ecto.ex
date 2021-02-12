@@ -168,17 +168,15 @@ defmodule Rummage.Ecto do
   end
 
   defp cast_params(%{paginate: opts} = rummage) do
-    cast_int = fn {k, v} do
-      new_val = case is_binary(v) do
+    cast_val = fn {k, v} do
+      case is_binary(v) do
         true -> Integer.parse(v)
-        false -> v
+        _ -> v
       end
-
-      {k, new_val}
     end
 
-    pag_params = Enum.into(opts, %{}, &cast_int)
-    {rummage | %{paginate: pag_params}}
+    new_opts = Enum.into(opts, %{}, &cost_val)
+    %{rummage | new_opts}
   end
 
   defp cast_params(rummage), do: rummage
