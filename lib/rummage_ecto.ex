@@ -177,7 +177,7 @@ defmodule Rummage.Ecto do
       {k, new_val}
     end)
 
-    %{rummage | paginate: new_opts)
+    %{rummage | paginate: new_opts}
   end
 
   defp cast_params(rummage), do: rummage
