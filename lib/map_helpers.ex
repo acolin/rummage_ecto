@@ -92,4 +92,19 @@ defmodule Map.Helpers do
   defp deep_resolve(_key, _left, right) do
     right
   end
+
+  def cast_params(%{paginate: opts} = rummage) do
+    new_opts = Enum.into(opts, %{}, fn {k, v} ->
+      {new_val, _} = cond do
+        is_binary(v) and v != "" -> Integer.parse(v)
+        is_binary(v) -> {0, 0}
+        true -> {v, v}
+      end
+      {k, new_val}
+    end)
+
+    %{rummage | paginate: new_opts}
+  end
+
+  def cast_params(rummage), do: rummage
 end
