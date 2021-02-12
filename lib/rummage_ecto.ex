@@ -50,6 +50,7 @@ defmodule Rummage.Ecto do
   """
 
   alias Rummage.Ecto.Config, as: RConfig
+  alias Map.Helpers, as: MHelper
 
   @doc """
   This is the function which calls to the `Rummage` `hooks`.
