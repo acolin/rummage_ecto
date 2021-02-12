@@ -153,6 +153,9 @@ defmodule Rummage.Ecto do
   """
   @spec rummage(Ecto.Query.t(), map(), Keyword.t()) :: {Ecto.Query.t(), map()}
   def rummage(queryable, rummage, opts \\ []) do
+    rummage = rummage
+              |> Map.Helpers.atomize_keys()
+              |> cast_params()
     hooks = [
       search: Keyword.get(opts, :search, RConfig.search()),
       sort: Keyword.get(opts, :sort, RConfig.sort()),
@@ -163,6 +166,22 @@ defmodule Rummage.Ecto do
 
     {Enum.reduce(hooks, queryable, &run_hook(&1, &2, rummage)), rummage}
   end
+
+  defp cast_params(%{paginate: opts} = rummage) do
+    cast_int = fn {k, v} do
+      new_val = case is_binary(v) do
+        true -> Integer.parse(v)
+        false -> v
+      end
+
+      {k, new_val}
+    end
+
+    pag_params = Enum.into(opts, %{}, &cast_int)
+    {rummage | %{paginate: pag_params}}
+  end
+
+  defp cast_params(rummage), do: rummage
 
   defp format_hook_params({_, nil}, rummage, _, _), do: rummage
 
