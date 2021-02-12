@@ -153,9 +153,9 @@ defmodule Rummage.Ecto do
   """
   @spec rummage(Ecto.Query.t(), map(), Keyword.t()) :: {Ecto.Query.t(), map()}
   def rummage(queryable, rummage, opts \\ []) do
-    rummage = rummage
-              |> Map.Helpers.atomize_keys()
-              |> cast_params()
+    #rummage = rummage
+              #|> Map.Helpers.atomize_keys()
+              #|> cast_params()
     hooks = [
       search: Keyword.get(opts, :search, RConfig.search()),
       sort: Keyword.get(opts, :sort, RConfig.sort()),
