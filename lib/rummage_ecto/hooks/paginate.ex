@@ -374,6 +374,8 @@ defmodule Rummage.Ecto.Hook.Paginate do
     |> exclude(:select)
     |> exclude(:preload)
     |> exclude(:order_by)
+    |> exclude(:limit)
+    |> exclude(:offet)
     |> get_count(repo, pk(queryable))
   end
 
